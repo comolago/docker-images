@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ImageStream
+metadata:
+  creationTimestamp: null
+  name: alpine-s2i
+  namespace: toolchain
+spec:
+  lookupPolicy:
+    local: false
+status:
+  dockerImageRepository: ""

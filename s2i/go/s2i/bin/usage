@@ -1,0 +1,13 @@
+#!/bin/bash -e
+cat <<EOF
+This is Golang S2I Scratch image
+
+This image can be used as scratch image to create application images
+
+Sample invocation:
+
+s2i build <source code path/URL> <scratch-s2i> <new-app-image-name>
+
+You can then run the resulting image via:
+docker run <application image>
+EOF

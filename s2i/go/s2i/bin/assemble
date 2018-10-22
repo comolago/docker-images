@@ -1,0 +1,38 @@
+#!/bin/bash -e
+#
+# S2I assemble script for the 'go-s2i' image.
+# The 'assemble' script builds your application source so that it is ready to run.
+#
+# For more information refer to the documentation:
+#	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
+#
+
+# If the 'go-s2i' assemble script is executed with the '-h' flag, print the usage.
+if [[ "$1" == "-h" ]]; then
+	exec /usr/libexec/s2i/usage
+fi
+
+mkdir -p ${GOPATH}/src/myproject
+
+# Restore artifacts from the previous build (if they exist).
+if [ "$(ls /tmp/artifacts/ 2>/dev/null)" ]; then
+  echo "---> Restoring build artifacts..."
+  mv /tmp/artifacts/. ${GOPATH}/src/myproject
+fi
+
+echo "---> Installing application source..."
+cp -Rf /tmp/src/. ${GOPATH}/src/myproject
+
+echo "---> Building application from source..."
+export GOBIN=${GOPATH}/bin
+export INSTALL_PATH=${INSTALL_PATH}
+export GOPATH=${GOPATH}
+cd ${GOPATH}/src/myproject
+make app
+
+echo "---> Installing application..."
+make install
+make define-entrypoint
+
+echo "---> Checking for main application entry point..."
+ls ${INSTALL_PATH}/bin/container-entrypoint >/dev/null

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  name: go-s2i
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: go-s2i:1.11
+  source:
+    git:
+      uri: https://github.com/comolago/docker-images.git
+      ref: master
+    contextDir: s2i/go
+  strategy:
+    type: Docker
+    dockerStrategy:
+      env:
+        - name: INSTALL_PATH
+          value: /opt/app-root
+      noCache: true
+      from:
+        kind: DockerImage
+        name: docker.io/library/golang:1.11
+

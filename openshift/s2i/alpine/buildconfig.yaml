@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  name: alpine-s2i
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: alpine-s2i:3.8
+  source:
+    git:
+      uri: https://github.com/comolago/docker-images.git
+      ref: master
+    contextDir: s2i/alpine
+  strategy:
+    type: Docker
+    dockerStrategy:
+      noCache: true
+      from:
+        kind: DockerImage
+        name: docker.io/alpine:3.8
+

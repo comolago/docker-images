@@ -1,0 +1,13 @@
+#!/bin/sh
+cat <<EOF
+This is Alpine Linux Runtime S2I image
+
+This image can be used as runtime image to create application images
+
+Sample invocation:
+
+s2i build <source code path/URL> <scratch-s2i> <new-app-image-name> --runtime-image=<runtime-s2i>
+
+You can then run the resulting image via:
+docker run <application image>
+EOF
